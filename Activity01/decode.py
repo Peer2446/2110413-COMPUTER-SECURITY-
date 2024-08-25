@@ -49,14 +49,14 @@ except FileNotFoundError:
     exit(1)
 
 #1
-print('#1', decode_password('d54cc1fe76f5186380a0939d2fc1723c44e8a5f7', passwordList))
+print('#1\n', decode_password('d54cc1fe76f5186380a0939d2fc1723c44e8a5f7', passwordList), end='\n\n')
 
 #2
 start = time.time()
 rainbowTable = generateRainbowTable(passwordList)
 end = time.time()
-print('#2 Time taken:', end - start)
-print('#2 Table size:', len(rainbowTable))
+print('#2\nTime taken:', end - start, 'seconds')
+print('Table size:', len(rainbowTable), end='\n\n')
 # print(tabulate(rainbowTable.items(), headers=['Password', 'Hash'], tablefmt='grid'))
 
 #3
@@ -66,23 +66,23 @@ hashValue = hashlib.sha1(password.encode()).hexdigest()
 endTime = time.time()
 
 timeTaken = endTime - startTime
-print("#3 Time taken for a single SHA-1 hash:", timeTaken)
+print("#3\nTime taken for a single SHA-1 hash:", timeTaken, end=' seconds\n\n')
 
-#4 assume that the password is 7 characters long and contains only letters and digits
-# time to generate all possible combinations 36^7(26 from a-z, 10 from 0-9)
-totalCombinations = 36**7
-timeToGenerate = totalCombinations * timeTaken
-print(f'#4 Time to generate all possible combinations: {timeToGenerate} seconds / {timeToGenerate/3600} hours / {timeToGenerate/3600/24} days')
+#4 assume that the password is x characters long and contains only letters and digits
+print('#4\nLet x be the length of the password and the password contains only letters and digits (a-z, A-Z, 0-9)')
+print('totalCombinations = 62^x')
+print('timeToGenerate = totalCombinations * timeTaken')
+print('timeToGenerate = 62^x *', timeTaken, 'seconds\n')
 
 #5
 passwordLength = 1
 while True:
-    totalCombinations = 36**passwordLength
+    totalCombinations = 62**passwordLength
     timeToGenerate = totalCombinations * timeTaken
     # if time to generate is more than 1 year, break
     if timeToGenerate > 365*24*3600:
-        print(f'#5 Time to generate all possible combinations for a {passwordLength}-character password: {timeToGenerate/3600} hours / {timeToGenerate/3600/24} days')
-        print(f'#5 The proper length of the password is {passwordLength} (need more than 1 year to break)')
+        print(f'#5\nTime to generate all possible combinations for a {passwordLength}-character password: {timeToGenerate/3600/24} days / ({timeToGenerate/3600/24/365} years)') 
+        print(f'The proper length of the password is {passwordLength} (need more than 1 year to break)\n')
         break
     passwordLength += 1
 
